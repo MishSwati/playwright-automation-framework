@@ -1,4 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+dotenv.config();
 
 /**
  * Read environment variables from file.
@@ -12,13 +14,16 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  globalSetup: "./tests/auth/global-setup.ts",
+  globalTeardown: "./tests/auth/global-teardown.ts",
+
   testDir: './tests',
   /* global timeout */
   timeout: 60000,
   /* this is assertion timeout */
   expect: { timeout: 5000 },
   /* Run tests in files in parallel */
-  fullyParallel: false,
+  fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -26,20 +31,21 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html'],['line']],
+  reporter: [['html'], ['line']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    // baseURL: 'https://www.saucedemo.com',
+    // storageState: 'auth/standard_user.json',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
     headless: false,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    launchOptions:{
+    launchOptions: {
       slowMo: 2000,
-    }
+    },
+    storageState: 'tests/auth/standard_user_LoginState.json',
 
   },
 
@@ -47,10 +53,11 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { 
-        ...devices['Desktop Chrome'] ,
+      use: {
+        ...devices['Desktop Chrome'],
         screenshot: 'on-first-failure',
-        
+        trace: 'retain-on-first-failure',
+
       },
 
     },

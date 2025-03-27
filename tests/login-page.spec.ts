@@ -1,24 +1,11 @@
-import { expect, test } from "@playwright/test";
 import testdata from "../test-data/data.json"
-import { LoginPage } from "../page-object/login-page";
-import { ProductsInventoryPage } from "../page-object/products-inventory-page";
+import { test, expect } from "../utils/fixtures";
 
-test.describe('Swag Labs Login Functionality',async()=>{
-    let loginPage : LoginPage;
-    let productsInventoryPage : ProductsInventoryPage;
-    
-    test.beforeEach(async ({page}) => {
-        loginPage = new LoginPage(page);
-        productsInventoryPage = new ProductsInventoryPage(page);
-        await page.goto(testdata.url);
-        const pageTitle = await page.title();
-        expect(pageTitle).toBe(testdata.expectedTitle);
-        
+test.describe('Swag Labs Login Page', async () => {
+
+    test(`verify login with ${testdata.username}`, async ({ productsInventoryPage, page }) => {
+        await page.goto('https://www.saucedemo.com/inventory.html');
+        await expect(productsInventoryPage.productsHeading).toBeVisible();
     })
-    test('verify login to the application',async({page})=>{
-        await loginPage.usernameInput.fill(testdata.username);
-        await loginPage.passwordInput.fill(testdata.password);
-        await loginPage.loginButton.click();
-        await expect (productsInventoryPage.productsLabel).toBeVisible();
-    })
+
 })

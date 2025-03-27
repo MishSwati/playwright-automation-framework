@@ -1,0 +1,11 @@
+# Plawright-automation-framework
+This is a test automation framework build on Playwright with Typescript
+
+## Setup
+
+- Install dependencies: `npm install`
+- Install Playwright: `npx playwright intall`
+
+## Running tests
+
+- Run tests: `npx playwright test`
