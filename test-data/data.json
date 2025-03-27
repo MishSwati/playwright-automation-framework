@@ -1,6 +1,7 @@
 {
-    "url" : "https://www.saucedemo.com/",
+    "url": "https://www.saucedemo.com/",
     "expectedTitle": "Swag Labs",
-    "username":"standard_user",
-    "password":"secret_sauce"
+    "username": "standard_user",
+    "password": "secret_sauce",
+    "productName": "Sauce Labs Backpack"
 }
